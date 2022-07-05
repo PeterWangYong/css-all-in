@@ -1,17 +1,24 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watchEffect, watch } from 'vue';
 import Item from './Item.vue';
 import ItemModel from '../models/itemModel';
-import yaml from '../assets/yaml/test.yaml';
+// import yaml from '../assets/yaml/test.yaml';
+const props = defineProps(['root']);
 
-const root = ItemModel.parse(yaml);
+let itemList = ref([props.root]);
 
-const itemList = ref([root]);
+watchEffect(() => {
+  console.log('watchEffect', props.root);
+  itemList.value = [props.root];
+});
+
+// const root = ItemModel.parse(yaml);
+
 const itemNumber = computed(() => itemList.value.length);
 const itemStyle = computed(() => ({
   width: `${itemNumber.value === 1 ? 100 : 45}%`,
   height: `${
-    itemNumber.value === 1 ? 260 : 260 / Math.ceil(itemNumber.value / 2) - 10
+    itemNumber.value === 1 ? 300 : 260 / Math.ceil(itemNumber.value / 2) - 10
   }px`,
   border: `${itemNumber.value === 1 ? 'none' : 'solid 1px #000'}`,
 }));

@@ -12,10 +12,11 @@ class ItemModel {
   set children(v) {
     for (const item of v) {
       item.parent = this;
-      this._children = v;
     }
+    this._children = v;
   }
 
+  // { css: [{key1: [{key2: [key3]}]}] }
   static parse(data) {
     function dispatch(data) {
       if (typeof data === 'string') {
